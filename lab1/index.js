@@ -27,12 +27,6 @@ function triangle(a, typeA, b, typeB) {
   let alpha, beta, c;
 
   switch (true) {
-    case typeA === elements.LEG && typeB === elements.LEG:
-      console.log(
-        "Помилка: Неможливо обчислити трикутник за двома катетами без кута."
-      );
-      return "failed";
-
     case typeA === elements.HYPOTENUSE && typeB === elements.HYPOTENUSE:
       console.log(
         "Помилка: Неможливо обчислити трикутник за двома гіпотенузами."
@@ -120,6 +114,7 @@ function triangle(a, typeA, b, typeB) {
       c = typeA === elements.HYPOTENUSE ? a : b;
       alpha = typeA === elements.ANGLE ? a : b;
       if (alpha <= 0 || alpha >= 90) {
+        console.log("Помилка: Кут має бути більше за 0° та менше за 90°.");
         return "failed";
       }
       a = c * Math.sin(toRadians(alpha));
@@ -155,12 +150,3 @@ function triangle(a, typeA, b, typeB) {
   console.log("\n");
   return "success";
 }
-
-console.clear();
-triangle(7, "leg", 18, "hypotenuse");
-triangle(60, "opposite angle", 5, "leg");
-triangle(43.13, "angle", -2, "hypotenuse");
-triangle(4, "leg", 8, "hypotenuse");
-triangle(8, "hypotenuse", 4, "leg");
-triangle(30, "angle", 5, "leg");
-triangle(5, "leg", 30, "angle");
