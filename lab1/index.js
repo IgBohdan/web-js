@@ -7,7 +7,27 @@ function triangle(a, typeA, b, typeB) {
     ANGLE: "angle",
   };
 
+  // Додаємо обробку занадто малих / великих сторін
+  const MIN_SIDE_LENGTH = 0.000001; // Мінімальна довжина сторони
+  const MAX_SIDE_LENGTH = 1000000; // Максимальна довжина сторони
+
   if (a <= 0 || b <= 0) {
+    console.log(
+      "Помилка: Значення сторін має бути більше 0. Будь ласка, перевірте інструкцію."
+    );
+    return "failed";
+  }
+  if (a < MIN_SIDE_LENGTH || b < MIN_SIDE_LENGTH) {
+    console.log(
+      `Помилка: Значення сторони надто мале. Мінімальне значення ${MIN_SIDE_LENGTH}`
+    );
+    return "failed";
+  }
+
+  if (a > MAX_SIDE_LENGTH || b > MAX_SIDE_LENGTH) {
+    console.log(
+      `Помилка: Значення сторони надто велике. Максимальне значення ${MAX_SIDE_LENGTH}`
+    );
     return "failed";
   }
 
@@ -54,34 +74,39 @@ function triangle(a, typeA, b, typeB) {
     case (typeA === elements.LEG && typeB === elements.HYPOTENUSE) ||
       (typeA === elements.HYPOTENUSE && typeB === elements.LEG):
       c = Math.max(a, b);
-      a = Math.min(a, b);
-      if (a >= c) {
+      let leg = Math.min(a, b);
+
+      if (leg >= c) {
         console.log(
           "Помилка: Катет не може бути більше або дорівнювати гіпотенузі."
         );
         return "failed";
       }
-      b = Math.sqrt(c ** 2 - a ** 2);
-      alpha = toDegrees(Math.asin(a / c));
+      b = Math.sqrt(c ** 2 - leg ** 2);
+      alpha = toDegrees(Math.asin(leg / c));
       beta = 90 - alpha;
+      a = leg;
       break;
 
     case (typeA === elements.LEG && typeB === elements.ADJACENT_ANGLE) ||
       (typeA === elements.ADJACENT_ANGLE && typeB === elements.LEG):
-      a = typeA === elements.LEG ? a : b;
+      let legAdj = typeA === elements.LEG ? a : b;
       beta = typeA === elements.ADJACENT_ANGLE ? a : b;
+
       if (beta <= 0 || beta >= 90) {
         console.log("Помилка: Кут має бути більше за 0° та менше за 90°.");
         return "failed";
       }
-      b = a / Math.tan(toRadians(beta));
-      c = Math.sqrt(a ** 2 + b ** 2);
+      // Виправлення тут: використовуємо тангенс для обчислення протилежного катета
+      b = legAdj * Math.tan(toRadians(beta));
+      c = Math.sqrt(legAdj ** 2 + b ** 2);
       alpha = 90 - beta;
+      a = legAdj;
       break;
 
     case (typeA === elements.LEG && typeB === elements.OPPOSITE_ANGLE) ||
       (typeA === elements.OPPOSITE_ANGLE && typeB === elements.LEG):
-      let leg = typeA === elements.LEG ? a : b;
+      let legOpp = typeA === elements.LEG ? a : b;
       let angle = typeA === elements.OPPOSITE_ANGLE ? a : b;
 
       if (angle <= 0 || angle >= 90) {
@@ -92,20 +117,15 @@ function triangle(a, typeA, b, typeB) {
       if (typeA === elements.LEG) {
         alpha = angle;
         beta = 90 - alpha;
-        c = leg / Math.sin(toRadians(alpha));
+        c = legOpp / Math.sin(toRadians(alpha));
         b = c * Math.cos(toRadians(alpha));
-      }
-      if (typeA === elements.OPPOSITE_ANGLE) {
+        a = legOpp;
+      } else {
         alpha = angle;
         beta = 90 - alpha;
-        c = leg / Math.sin(toRadians(alpha));
+        c = legOpp / Math.sin(toRadians(alpha));
+        a = c * Math.sin(toRadians(alpha));
         b = c * Math.cos(toRadians(alpha));
-        a = c * Math.sin(toRadians(alpha));
-      } else {
-        beta = angle;
-        alpha = 90 - beta;
-        c = leg / Math.cos(toRadians(alpha));
-        a = c * Math.sin(toRadians(alpha));
       }
       break;
 
@@ -124,17 +144,17 @@ function triangle(a, typeA, b, typeB) {
 
     case (typeA === elements.LEG && typeB === elements.ANGLE) ||
       (typeA === elements.ANGLE && typeB === elements.LEG):
-      if (typeA === elements.ANGLE) {
-        [a, b, typeA, typeB] = [b, a, typeB, typeA];
-      }
-      alpha = typeA === elements.ANGLE ? a : b;
-      if (alpha <= 0 || alpha >= 90) {
+      let alphaAngle = typeA === elements.ANGLE ? a : b;
+      let legAngle = typeA === elements.LEG ? a : b;
+      if (alphaAngle <= 0 || alphaAngle >= 90) {
         console.log("Помилка: Кут має бути більше за 0° та менше за 90°.");
         return "failed";
       }
-      c = a / Math.cos(toRadians(alpha));
-      b = c * Math.sin(toRadians(alpha));
+      alpha = alphaAngle;
       beta = 90 - alpha;
+      c = legAngle / Math.cos(toRadians(alpha));
+      b = c * Math.sin(toRadians(alpha));
+      a = legAngle;
       break;
 
     default:
