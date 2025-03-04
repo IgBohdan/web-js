@@ -73,8 +73,8 @@ function triangle(a, typeA, b, typeB) {
 
     case (typeA === elements.LEG && typeB === elements.HYPOTENUSE) ||
       (typeA === elements.HYPOTENUSE && typeB === elements.LEG):
-      c = Math.max(a, b);
-      let leg = Math.min(a, b);
+      c = typeA === elements.HYPOTENUSE ? a : b;
+      let leg = typeA === elements.LEG ? a : b;
 
       if (leg >= c) {
         console.log(
@@ -85,7 +85,13 @@ function triangle(a, typeA, b, typeB) {
       b = Math.sqrt(c ** 2 - leg ** 2);
       alpha = toDegrees(Math.asin(leg / c));
       beta = 90 - alpha;
-      a = leg;
+      if (typeA === elements.HYPOTENUSE) {
+        a = Math.sqrt(c ** 2 - leg ** 2);
+        b = leg;
+      } else {
+        a = leg;
+      }
+
       break;
 
     case (typeA === elements.LEG && typeB === elements.ADJACENT_ANGLE) ||
