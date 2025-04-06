@@ -164,7 +164,7 @@ const SORT = {
         quickSortHelper(array, pi + 1, high);
       }
     }
- 
+
     quickSortHelper(workingArr, 0, workingArr.length - 1);
     counter.log();
     return workingArr;
@@ -190,12 +190,12 @@ console.log("\n=== Звичайний масив (довжина: 100) ===");
 methods.forEach(([name, method]) => {
   console.log(`\n${name}:`);
   const result = method(regularArray, true);
-  console.log(`Перші 10 елементів: [${result}]`);
+  console.log(`[${result}]`);
 });
 
 console.log("\n=== Розріджений масив (довжина: 100) ===");
 methods.forEach(([name, method]) => {
   console.log(`\n${name}:`);
   const result = method(sparseArray, true);
-  console.log(`Перші 10 елементів: [${result}]`);
+  console.log(`[${result}]`);
 });
