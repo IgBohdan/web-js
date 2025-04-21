@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #cube {
+            position: absolute;
+            cursor: pointer;
+        }
+        #gameArea {
+            position: relative;
+            width: 100%;
+            height: 80vh;
+            border: 2px solid #ccc;
+            border-radius: 1em;
+        }
+        #progressBar {
+        min-width: 10em;
+            width: 100%;
+            background-color: #e5e7eb;
+            height: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #progress {
+            height: 100%;
+            background-color: #3b82f6;
+            transition: width 0.1s linear;
+        }
+        #gameOver {
+            position: absolute;
+            background: white;
+            border-radius: 1em;
+            top: 50%;
+            left: 50%;
+            padding: 2em;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="startScreen" class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Cube Clicker Game</h1>
+        <div class="mb-4">
+            <label for="difficulty" class="block text-lg mb-2">Select Difficulty:</label>
+            <select id="difficulty" class="p-2 border rounded">
+                <option value="easy">Easy (5s, Large Cube)</option>
+                <option value="medium">Medium (3s, Medium Cube)</option>
+                <option value="hard">Hard (1s, Small Cube)</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="color" class="block text-lg mb-2">Select Cube Color:</label>
+            <select id="color" class="p-2 border rounded">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+            </select>
+        </div>
+        <button id="startButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Start</button>
+    </div>
+
+    <div id="gameScreen" class="hidden relative bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl">
+        <div class="flex justify-between mb-4">
+            <div id="clicks" class="text-lg">Clicks: 0</div>
+            <div class="flex items-center space-x-2">
+                <div id="timer" class="text-lg text-nowrap">Time: 0s</div>
+                <div id="progressBar">
+                    <div id="progress" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+        <div id="gameArea">
+            <div id="cube"></div>
+        </div>
+        <div id="gameOver" class="hidden text-center mt-4">
+            <h2 class="text-2xl font-bold text-red-600">Game Over!</h2>
+            <p id="finalScore" class="text-lg mb-4"></p>
+            <button id="restartButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Restart</button>
+        </div>
+    </div>
+
+    <script>
+        const startScreen = document.getElementById('startScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const startButton = document.getElementById('startButton');
+        const cube = document.getElementById('cube');
+        const clicksLabel = document.getElementById('clicks');
+        const timerLabel = document.getElementById('timer');
+        const progress = document.getElementById('progress');
+        const gameArea = document.getElementById('gameArea');
+        const gameOverScreen = document.getElementById('gameOver');
+        const finalScore = document.getElementById('finalScore');
+        const restartButton = document.getElementById('restartButton');
+
+        let clicks = 0;
+        let timeLeft = 0;
+        let totalTime = 0;
+        let timerInterval = null;
+        let difficulty = 'easy';
+        let color = 'red';
+        let isGameOver = false;
+
+        const difficultySettings = {
+            easy: { time: 5, cubeSize: 80 },
+            medium: { time: 3, cubeSize: 50 },
+            hard: { time: 1, cubeSize: 30 }
+        };
+
+        function startGame() {
+            difficulty = document.getElementById('difficulty').value;
+            color = document.getElementById('color').value;
+            totalTime = difficultySettings[difficulty].time;
+            timeLeft = totalTime;
+            clicks = 0;
+            isGameOver = false;
+
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            gameOverScreen.classList.add('hidden');
+
+            cube.style.backgroundColor = color;
+            cube.style.width = `${difficultySettings[difficulty].cubeSize}px`;
+            cube.style.height = `${difficultySettings[difficulty].cubeSize}px`;
+            clicksLabel.textContent = `Clicks: ${clicks}`;
+            timerLabel.textContent = `Time: ${timeLeft}s`;
+            progress.style.width = '100%';
+
+            moveCube();
+            startTimer();
+        }
+
+        function moveCube() {
+            if (isGameOver) return;
+
+            const maxX = gameArea.clientWidth - cube.clientWidth;
+            const maxY = gameArea.clientHeight - cube.clientHeight;
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+
+            cube.style.left = `${newX}px`;
+            cube.style.top = `${newY}px`;
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timeLeft = totalTime;
+            timerLabel.textContent = `Time: ${timeLeft}s`;
+            progress.style.width = '100%';
+
+            timerInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                if (timeLeft < 0) timeLeft = 0;
+
+                timerLabel.textContent = `Time: ${timeLeft.toFixed(1)}s`;
+                progress.style.width = `${(timeLeft / totalTime) * 100}%`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 100);
+        }
+
+        function endGame() {
+            isGameOver = true;
+            cube.style.display = 'none';
+            gameOverScreen.classList.remove('hidden');
+            finalScore.textContent = `Final Score: ${clicks} clicks`;
+        }
+
+        function resetGame() {
+            gameScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            cube.style.display = 'block';
+            clearInterval(timerInterval);
+        }
+
+        startButton.addEventListener('click', startGame);
+
+        cube.addEventListener('click', () => {
+            if (isGameOver) return;
+
+            clicks += 1;
+            clicksLabel.textContent = `Clicks: ${clicks}`;
+            moveCube();
+            startTimer();
+        });
+
+        restartButton.addEventListener('click', resetGame);
+    </script>
+</body>
+</html>
