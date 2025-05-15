@@ -234,10 +234,10 @@ function checkWin() {
       document.getElementById('levelSelect').value = currentLevelIndex;
     }, 1500);
   } 
-  // else if (moveCount > minMoves * 5 && minMoves !== null) {
-  //   alert(`Game Over! You exceeded ${minMoves * 5} moves. Resetting...`);
-  //   resetGame();
-  // }
+  else if (moveCount > minMoves * 3 && minMoves !== null) {
+    alert(`Game Over! You exceeded ${minMoves * 3} moves. Resetting...`);
+    resetGame();
+  }
 }
 
 function createWinParticles() {
