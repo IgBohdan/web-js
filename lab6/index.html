@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a202c, #2d3748);
+      animation: bgShift 15s ease infinite;
+    }
+    @keyframes bgShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    canvas {
+      border: 3px solid #4a5568;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    canvas:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+    }
+    .game-container {
+      background: linear-gradient(145deg, #2d3748, #1a202c);
+      animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+    }
+    .btn {
+      transition: all 0.3s ease;
+      transform: translateY(0);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .win-flash {
+      animation: winFlash 0.4s ease-in-out 4;
+    }
+    @keyframes winFlash {
+      0%, 100% { background: linear-gradient(135deg, #1a202c, #2d3748); }
+      50% { background: linear-gradient(135deg, #4a5568, #2d3748); }
+    }
+    .select-glow {
+      transition: all 0.3s ease;
+    }
+    .select-glow:hover {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4">
+  <div class="game-container p-6 rounded-xl text-white w-full max-w-md">
+    <h1 class="text-3xl font-extrabold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">Lights Out</h1>
+    <div class="mb-4">
+      <label for="levelSelect" class="block mb-2 text-lg font-semibold">Select Level:</label>
+      <select id="levelSelect" class="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white select-glow">
+      </select>
+    </div>
+    <p class="mb-4 text-lg">Moves: <span id="moveCount" class="font-bold text-blue-400">0</span> (Min Moves: <span id="minMoves" class="font-bold text-green-400">N/A</span>)</p>
+    <div id="canvasContainer" class="mb-4"></div>
+    <div class="flex justify-between">
+      <button id="resetBtn" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg btn">Reset</button>
+      <button id="hintBtn" class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-6 rounded-lg btn">Hint</button>
+    </div>
+  </div>
+
+<script>
+let levels = [];
+let grid = [];
+let gridSize = 5;
+let cellSize;
+let moveCount = 0;
+let minMoves = null;
+let currentLevelIndex = 0;
+let lightStates = [];
+let animationProgress = 0;
+let isAnimating = false;
+let winAnimation = false;
+let particles = [];
+
+function preload() {
+  loadJSON('levels.json', (data) => {
+    levels = data;
+    populateLevelSelect();
+    currentLevelIndex = floor(random(levels.length));
+    loadLevel(currentLevelIndex);
+    document.getElementById('levelSelect').value = currentLevelIndex;
+  }, () => {
+    console.log('Failed to load levels, using empty grid');
+    grid = Array(gridSize).fill().map(() => Array(gridSize).fill(0));
+    minMoves = 'N/A';
+    document.getElementById('minMoves').textContent = minMoves;
+  });
+}
+
+function populateLevelSelect() {
+  const levelSelect = document.getElementById('levelSelect');
+  levelSelect.innerHTML = '';
+  levels.forEach((level, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = `Level ${index + 1} (Min Moves: ${level.minMoves})`;
+    levelSelect.appendChild(option);
+  });
+}
+
+function loadLevel(levelIndex) {
+  if (levelIndex >= 0 && levelIndex < levels.length) {
+    const level = levels[levelIndex];
+    grid = level.grid.map(row => [...row]);
+    minMoves = level.minMoves;
+    document.getElementById('minMoves').textContent = minMoves;
+    gridSize = grid.length;
+    cellSize = width / gridSize;
+    lightStates = grid.map(row => row.map(cell => ({ value: cell, target: cell })));
+    animationProgress = 0;
+    isAnimating = false;
+    winAnimation = false;
+    particles = [];
+  }
+}
+
+function setup() {
+  let canvas = createCanvas(400, 400);
+  canvas.parent('canvasContainer');
+  cellSize = width / gridSize;
+  loop();
+  document.getElementById('levelSelect').addEventListener('change', (e) => {
+    currentLevelIndex = parseInt(e.target.value);
+    moveCount = 0;
+    document.getElementById('moveCount').textContent = moveCount;
+    loadLevel(currentLevelIndex);
+  });
+}
+
+function draw() {
+  background(26, 32, 44);
+  if (isAnimating) {
+    animationProgress += 0.1;
+    if (animationProgress >= 1) {
+      animationProgress = 1;
+      isAnimating = false;
+      lightStates.forEach((row, i) => row.forEach((cell, j) => {
+        cell.value = cell.target;
+        grid[i][j] = cell.target;
+      }));
+      checkWin();
+    }
+  }
+
+  for (let i = 0; i < gridSize; i++) {
+    for (let j = 0; j < gridSize; j++) {
+      let x = j * cellSize;
+      let y = i * cellSize;
+      let current = lightStates[i][j].value;
+      let target = lightStates[i][j].target;
+      let interp = isAnimating ? lerp(current, target, easeInOutQuad(animationProgress)) : target;
+      let brightness = interp * 255;
+      let glow = isAnimating ? 255 * animationProgress : interp * 100;
+      fill(brightness, brightness, glow);
+      stroke(255, 255, 255, 150);
+      rect(x, y, cellSize, cellSize, 5);
+    }
+  }
+
+  if (winAnimation) {
+    particles.forEach(p => {
+      p.update();
+      p.show();
+    });
+    particles = particles.filter(p => p.lifetime > 0);
+  }
+}
+
+function easeInOutQuad(t) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
+function mousePressed() {
+  if (!isAnimating) {
+    let i = floor(mouseY / cellSize);
+    let j = floor(mouseX / cellSize);
+    if (i >= 0 && i < gridSize && j >= 0 && j < gridSize) {
+      toggleLight(i, j);
+      moveCount++;
+      document.getElementById('moveCount').textContent = moveCount;
+      animationProgress = 0;
+      isAnimating = true;
+    }
+  }
+}
+
+function toggleLight(i, j) {
+  lightStates[i][j].target = 1 - lightStates[i][j].target;
+  if (i > 0) lightStates[i-1][j].target = 1 - lightStates[i-1][j].target;
+  if (i < gridSize - 1) lightStates[i+1][j].target = 1 - lightStates[i+1][j].target;
+  if (j > 0) lightStates[i][j-1].target = 1 - lightStates[i][j-1].target;
+  if (j < gridSize - 1) lightStates[i][j+1].target = 1 - lightStates[i][j+1].target;
+}
+
+function checkWin() {
+  let allOff = grid.every(row => row.every(cell => cell === 0));
+  if (allOff) {
+    let message = `You won in ${moveCount} moves!`;
+    if (minMoves !== null && moveCount > minMoves) {
+      message += ` (Minimum: ${minMoves} moves)`;
+    } else if (minMoves !== null && moveCount <= minMoves) {
+      message += ` (Perfect! Matches minimum: ${minMoves} moves)`;
+    }
+    winAnimation = true;
+    document.body.classList.add('win-flash');
+    createWinParticles();
+    setTimeout(() => {
+      document.body.classList.remove('win-flash');
+      alert(message);
+      let newLevelIndex = currentLevelIndex;
+      while (newLevelIndex === currentLevelIndex) {
+        newLevelIndex = floor(random(levels.length));
+      }
+      currentLevelIndex = newLevelIndex;
+      resetGame();
+      document.getElementById('levelSelect').value = currentLevelIndex;
+    }, 1500);
+  } 
+  // else if (moveCount > minMoves * 5 && minMoves !== null) {
+  //   alert(`Game Over! You exceeded ${minMoves * 5} moves. Resetting...`);
+  //   resetGame();
+  // }
+}
+
+function createWinParticles() {
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      x: random(width),
+      y: random(height),
+      vx: random(-2, 2),
+      vy: random(-2, 2),
+      lifetime: random(60, 120),
+      size: random(3, 8),
+      update: function() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.lifetime -= 1;
+        this.size *= 0.98;
+      },
+      show: function() {
+        noStroke();
+        fill(59, 130, 246, map(this.lifetime, 0, 120, 0, 255));
+        circle(this.x, this.y, this.size);
+      }
+    });
+  }
+}
+
+function resetGame() {
+  loadLevel(currentLevelIndex);
+  moveCount = 0;
+  document.getElementById('moveCount').textContent = moveCount;
+}
+
+function showHint() {
+  let i = floor(random(gridSize));
+  let j = floor(random(gridSize));
+  alert(`Try toggling the light at row ${i + 1}, column ${j + 1}`);
+}
+
+document.getElementById('resetBtn').addEventListener('click', resetGame);
+document.getElementById('hintBtn').addEventListener('click', showHint);
+</script>
+</body>
+</html>
