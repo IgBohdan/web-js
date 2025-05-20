@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Adaptive Page</title>
+
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <h1>Adaptive Page</h1>
+            <button class="hamburger">☰</button>
+            <ul class="nav-menu">
+                <li><a href="#"><span>🏠</span> Home</a></li>
+                <li><a href="#"><span>📖</span> About</a></li>
+                <li><a href="#"><span>🛠️</span> Services</a></li>
+                <li><a href="#"><span>📞</span> Contact</a></li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <div class="carousel">
+            <div class="carousel-slides">
+                <div class="carousel-slide"><img src="https://place-hold.it/1200x400/3b82f6/fff?text=Slide+1" alt="Slide 1"></div>
+                <div class="carousel-slide"><img src="https://place-hold.it/1200x400/ef4444/fff?text=Slide+2" alt="Slide 2"></div>
+                <div class="carousel-slide"><img src="https://place-hold.it/1200x400/22c55e/fff?text=Slide+3" alt="Slide 3"></div>
+                <div class="carousel-slide"><img src="https://place-hold.it/1200x400/8b5cf6/fff?text=Slide+4" alt="Slide 4"></div>
+            </div>
+            <button class="carousel-arrow left">
+               <p>
+                   ←
+               </p>
+            </button>
+            <button class="carousel-arrow right">
+           <p>
+               →
+           </p>
+            </button>
+            <div class="carousel-indicators">
+                <span class="carousel-indicator active"></span>
+                <span class="carousel-indicator"></span>
+                <span class="carousel-indicator"></span>
+                <span class="carousel-indicator"></span>
+            </div>
+        </div>
+        <div class="large-images">
+            <img src="https://place-hold.it/200x200/1e40af/fff?text=Large+1" alt="Large Image 1">
+            <img src="https://place-hold.it/200x200/1e40af/fff?text=Large+2" alt="Large Image 2">
+            <img src="https://place-hold.it/200x200/1e40af/fff?text=Large+3" alt="Large Image 3">
+        </div>
+        <div class="medium-images">
+            <img src="https://place-hold.it/200x200/ef4444/fff?text=Medium+1" alt="Medium Image 1">
+            <img src="https://place-hold.it/200x200/ef4444/fff?text=Medium+2" alt="Medium Image 2">
+        </div>
+    </main>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        const slides = document.querySelector('.carousel-slides');
+        const slideElements = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const prevButton = document.querySelector('.carousel-arrow.left');
+        const nextButton = document.querySelector('.carousel-arrow.right');
+        let currentSlide = 0;
+        let autoSlideInterval;
+
+        function showSlide(index) {
+            if (index < 0) index = slideElements.length - 1;
+            if (index >= slideElements.length) index = 0;
+            slides.style.transform = `translateX(-${index * 100}%)`;
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        prevButton.addEventListener('click', () => {
+            stopAutoSlide();
+            showSlide(currentSlide - 1);
+            startAutoSlide();
+        });
+
+        nextButton.addEventListener('click', () => {
+            stopAutoSlide();
+            showSlide(currentSlide + 1);
+            startAutoSlide();
+        });
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                stopAutoSlide();
+                showSlide(index);
+                startAutoSlide();
+            });
+        });
+
+        startAutoSlide();
+    </script>
+</body>
+</html>
