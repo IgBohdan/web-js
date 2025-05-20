@@ -1,0 +1,40 @@
+{
+    "name": "Clothing",
+    "products": [
+        {
+            "id": 1,
+            "name": "Cotton T-Shirt",
+            "shortname": "tshirt_cotton",
+            "description": "Comfortable cotton t-shirt available in multiple colors",
+            "price": 19.99
+        },
+        {
+            "id": 2,
+            "name": "Denim Jeans",
+            "shortname": "jeans_denim",
+            "description": "Slim-fit denim jeans with a modern cut",
+            "price": 49.99
+        },
+        {
+            "id": 3,
+            "name": "Wool Sweater",
+            "shortname": "sweater_wool",
+            "description": "Warm wool sweater perfect for winter",
+            "price": 69.99
+        },
+        {
+            "id": 4,
+            "name": "Leather Jacket",
+            "shortname": "jacket_leather",
+            "description": "Stylish leather jacket for a bold look",
+            "price": 129.99
+        },
+        {
+            "id": 5,
+            "name": "Running Shoes",
+            "shortname": "shoes_running",
+            "description": "Lightweight shoes for running and casual wear",
+            "price": 79.99
+        }
+    ]
+}

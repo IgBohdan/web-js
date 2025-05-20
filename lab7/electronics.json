@@ -1,0 +1,40 @@
+{
+    "name": "Electronics",
+    "products": [
+        {
+            "id": 1,
+            "name": "Smartphone X",
+            "shortname": "smartphone_x",
+            "description": "High-performance smartphone with 128GB storage",
+            "price": 599.99
+        },
+        {
+            "id": 2,
+            "name": "Wireless Earbuds",
+            "shortname": "earbuds",
+            "description": "Noise-cancelling earbuds with 20-hour battery life",
+            "price": 129.99
+        },
+        {
+            "id": 3,
+            "name": "4K Smart TV",
+            "shortname": "smart_tv",
+            "description": "55-inch 4K UHD TV with streaming apps",
+            "price": 499.99
+        },
+        {
+            "id": 4,
+            "name": "Laptop Pro",
+            "shortname": "laptop_pro",
+            "description": "Lightweight laptop with 16GB RAM",
+            "price": 1099.99
+        },
+        {
+            "id": 5,
+            "name": "Smart Watch",
+            "shortname": "smart_watch",
+            "description": "Fitness tracking and notifications",
+            "price": 199.99
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "name": "Books",
+    "products": [
+        {
+            "id": 1,
+            "name": "Science Fiction Novel",
+            "shortname": "novel_scifi",
+            "description": "An epic sci-fi adventure across the galaxy",
+            "price": 14.99
+        },
+        {
+            "id": 2,
+            "name": "Programming Guide",
+            "shortname": "guide_programming",
+            "description": "Comprehensive guide to modern programming",
+            "price": 39.99
+        },
+        {
+            "id": 3,
+            "name": "Historical Biography",
+            "shortname": "bio_historical",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+            "price": 24.99
+        },
+        {
+            "id": 4,
+            "name": "Cookbook",
+            "shortname": "cookbook",
+            "description": "Delicious recipes for every occasion",
+            "price": 29.99
+        }
+    ]
+}

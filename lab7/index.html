@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <nav class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Product Catalog</h1>
+            <div class="space-x-4">
+                <a href="/" id="homeLink" class="hover:underline">home</a>
+                <a href="#" id="catalogLink" class="hover:underline">catalog</a>
+            </div>
+        </nav>
+    </header>
+    <main class="container mx-auto p-6">
+        <div id="categories" class="mb-6"></div>
+        <div id="products" class="mt-6"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            document.getElementById('catalogLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                loadCategories();
+            });
+        });
+
+        async function loadCategories() {
+            try {
+                const response = await fetch('categories.json');
+                if (!response.ok) throw new Error('Failed to load categories');
+                const categories = await response.json();
+                const categoriesDiv = document.getElementById('categories');
+                const productsDiv = document.getElementById('products');
+                productsDiv.innerHTML = '';
+                categoriesDiv.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-4">Categories</h2>
+                    <div class="flex flex-wrap gap-4">
+                        ${categories.map(category => `
+                            <a href="#" data-shortname="${category.shortname}" class="category-link bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">${category.name}</a>
+                        `).join('')}
+                        <a href="#" id="specialsLink" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Specials</a>
+                    </div>
+                `;
+                document.querySelectorAll('.category-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        loadProducts(link.dataset.shortname);
+                    });
+                });
+                document.getElementById('specialsLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const randomIndex = Math.floor(Math.random() * categories.length);
+                    loadProducts(categories[randomIndex].shortname);
+                });
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                document.getElementById('categories').innerHTML = '<p class="text-red-500">Error loading categories</p>';
+            }
+        }
+
+        async function loadProducts(shortname) {
+            try {
+                const response = await fetch(`${shortname}.json`);
+                if (!response.ok) throw new Error(`Failed to load products for ${shortname}`);
+                const data = await response.json();
+                const productsDiv = document.getElementById('products');
+                productsDiv.innerHTML = `
+                    <h2 class="text-2xl font-bold mb-4">${data.name}</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${data.products.map(product => `
+                            <div class="bg-white p-4 rounded-lg shadow-md">
+                                <img src="https://place-hold.it/200x200" alt="${product.name}" class="w-full h-48 object-cover mb-4 rounded">
+                                <h3 class="text-lg font-semibold">${product.name}</h3>
+                                <p class="text-gray-600 text-sm mb-2">${product.description}</p>
+                                <p class="text-blue-600 font-bold">$${product.price.toFixed(2)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error(`Error loading products for ${shortname}:`, error);
+                document.getElementById('products').innerHTML = '<p class="text-red-500">Error loading products</p>';
+            }
+        }
+    </script>
+</body>
+</html>

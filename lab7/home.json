@@ -1,0 +1,47 @@
+{
+    "name": "Home & Garden",
+    "products": [
+        {
+            "id": 1,
+            "name": "Ceramic Vase",
+            "shortname": "vase_ceramic",
+            "description": "Elegant vase for home decor",
+            "price": 34.99
+        },
+        {
+            "id": 2,
+            "name": "Garden Tools Set",
+            "shortname": "tools_garden",
+            "description": "Complete set of tools for gardening",
+            "price": 59.99
+        },
+        {
+            "id": 3,
+            "name": "Throw Blanket",
+            "shortname": "blanket_throw",
+            "description": "Cozy blanket for your living room",
+            "price": 29.99
+        },
+        {
+            "id": 4,
+            "name": "LED Table Lamp",
+            "shortname": "lamp_led",
+            "description": "Modern LED lamp with adjustable brightness",
+            "price": 44.99
+        },
+        {
+            "id": 5,
+            "name": "Wall Art Print",
+            "shortname": "art_print",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+            "price": 19.99
+        },
+        {
+            "id": 6,
+            "name": "Indoor Planter",
+            "shortname": "planter_indoor",
+            "description": "Stylish planter for indoor plants",
+            "price": 24.99
+        }
+    ]
+}

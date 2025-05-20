@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Electronics",
+        "shortname": "electronics",
+        "notes": "Latest gadgets and devices"
+    },
+    {
+        "id": 2,
+        "name": "Clothing",
+        "shortname": "clothing",
+        "notes": "Lorem ipsum dolor sit amet"
+    },
+    {
+        "id": 3,
+        "name": "Books",
+        "shortname": "books",
+        "notes": ""
+    },
+    {
+        "id": 4,
+        "name": "Home & Garden",
+        "shortname": "home",
+        "notes": "Essentials for your home"
+    }
+]
