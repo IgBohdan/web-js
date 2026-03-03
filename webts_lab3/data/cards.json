@@ -1,0 +1,37 @@
+{
+    "categoryName": "Платіжні Картки",
+    "items": [
+        {
+            "id": 1,
+            "name": "Black Card",
+            "shortname": "black",
+            "description": "Преміальна карта для щоденних витрат з високим кешбеком. Lorem ipsum dolor sit amet.",
+            "price": "0 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Black+Card"
+        },
+        {
+            "id": 2,
+            "name": "Platinum Card",
+            "shortname": "platinum",
+            "description": "Ексклюзивна карта для мандрівників з доступом до LoungeKey. Lorem ipsum dolor sit amet.",
+            "price": "150 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Platinum"
+        },
+        {
+            "id": 3,
+            "name": "Iron Card",
+            "shortname": "iron",
+            "description": "Металева карта для тих, хто цінує статус та максимальні ліміти. Lorem ipsum dolor sit amet.",
+            "price": "500 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Iron"
+        },
+        {
+            "id": 4,
+            "name": "Virtual Card",
+            "shortname": "virtual",
+            "description": "Безпечна карта для покупок в інтернеті без фізичного носія. Lorem ipsum dolor sit amet.",
+            "price": "0 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Virtual"
+        }
+    ]
+}

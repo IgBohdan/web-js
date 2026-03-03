@@ -1,0 +1,37 @@
+{
+    "categoryName": "Страхування",
+    "items": [
+        {
+            "id": 301,
+            "name": "Автоцивілка",
+            "shortname": "osago",
+            "description": "Обов'язкове страхування відповідальності власників авто онлайн. Lorem ipsum.",
+            "price": "1200 ₴ / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=OSAGO"
+        },
+        {
+            "id": 302,
+            "name": "Здоров'я",
+            "shortname": "health",
+            "description": "Медичне страхування на випадок неочікуваних витрат. Lorem ipsum.",
+            "price": "300 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Health"
+        },
+        {
+            "id": 303,
+            "name": "Житло",
+            "shortname": "house-ins",
+            "description": "Захист вашої квартири від затоплень, пожеж та інших ризиків. Lorem ipsum.",
+            "price": "100 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=House"
+        },
+        {
+            "id": 304,
+            "name": "Подорож",
+            "shortname": "travel",
+            "description": "Страховий поліс для виїзду за кордон з миттєвим оформленням. Lorem ipsum.",
+            "price": "400 ₴ / тижд",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Travel"
+        }
+    ]
+}

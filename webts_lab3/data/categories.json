@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Платіжні Картки",
+        "shortname": "cards",
+        "notes": "Широкий вибір карток для будь-яких потреб: від віртуальних до преміальних. Lorem ipsum dolor sit amet."
+    },
+    {
+        "id": 2,
+        "name": "Кредитні продукти",
+        "shortname": "loans",
+        "notes": "Швидкі кредити та розстрочка з найнижчими відсотками на ринку. Lorem ipsum dolor sit amet."
+    },
+    {
+        "id": 3,
+        "name": "Депозити та заощадження",
+        "shortname": "savings",
+        "notes": "Надійні інструменти для збереження та примноження вашого капіталу. Lorem ipsum dolor sit amet."
+    },
+    {
+        "id": 4,
+        "name": "Страхування",
+        "shortname": "insurance",
+        "notes": "Захистіть себе та своїх близьких з нашими страховими програмами. Lorem ipsum dolor sit amet."
+    }
+]

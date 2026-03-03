@@ -1,0 +1,139 @@
+{
+    "user": {
+        "id": "1",
+        "name": "Олександр",
+        "lastName": "Шевченко",
+        "phone": "+380 99 123 45 67",
+        "email": "alex@neobank.ua",
+        "avatar": "https://ui-avatars.com/api/?name=Oleksandr+Shevchenko&background=00aaff&color=fff"
+    },
+    "accounts": [
+        {
+            "id": "acc_1",
+            "type": "Чорна картка",
+            "number": "4441 •••• •••• 1234",
+            "balance": 450670.50,
+            "currency": "₴",
+            "color": "from-slate-800 to-slate-900",
+            "isMain": true
+        },
+        {
+            "id": "acc_2",
+            "type": "Валютна (USD)",
+            "number": "5168 •••• •••• 9876",
+            "balance": 1250.00,
+            "currency": "$",
+            "color": "from-blue-900 to-indigo-900",
+            "isMain": false
+        },
+        {
+            "id": "acc_3",
+            "type": "Валютна (EUR)",
+            "number": "5168 •••• •••• 9876",
+            "balance": 1250.00,
+            "currency": "€",
+            "color": "from-blue-900 to-indigo-900",
+            "isMain": false
+        }
+    ],
+    "transactions": [
+        {
+            "id": "tx_1",
+            "date": "2024-03-03T14:20:00Z",
+            "merchant": "Silpo Supermarket",
+            "category": "Продукти",
+            "amount": -850.20,
+            "icon": "🛒"
+        },
+        {
+            "id": "tx_2",
+            "date": "2024-03-03T10:15:00Z",
+            "merchant": "Поповнення картки",
+            "category": "Поповнення",
+            "amount": 5000.00,
+            "icon": "💰"
+        },
+        {
+            "id": "tx_3",
+            "date": "2024-03-02T19:45:00Z",
+            "merchant": "Netflix",
+            "category": "Розваги",
+            "amount": -380.00,
+            "icon": "🎬"
+        },
+        {
+            "id": "tx_4",
+            "date": "2024-03-02T08:30:00Z",
+            "merchant": "OKKO Petrol Station",
+            "category": "Транспорт",
+            "amount": -1200.50,
+            "icon": "🚗"
+        },
+        {
+            "id": "tx_5",
+            "date": "2024-03-01T21:10:00Z",
+            "merchant": "Starbucks",
+            "category": "Кафе та ресторани",
+            "amount": -145.00,
+            "icon": "☕"
+        }
+    ],
+    "analytics": {
+        "income": [
+            45000,
+            52000,
+            48000,
+            55000,
+            50000,
+            62000
+        ],
+        "expenses": [
+            41000,
+            38000,
+            42000,
+            39000,
+            44000,
+            40000
+        ],
+        "months": [
+            "Жов",
+            "Лис",
+            "Гру",
+            "Січ",
+            "Лют",
+            "Бер"
+        ],
+        "categories": [
+            {
+                "label": "Продукти",
+                "value": 35,
+                "color": "#3b82f6"
+            },
+            {
+                "label": "Транспорт",
+                "value": 15,
+                "color": "#2563eb"
+            },
+            {
+                "label": "Розваги",
+                "value": 20,
+                "color": "#1d4ed8"
+            },
+            {
+                "label": "Комунальні",
+                "value": 20,
+                "color": "#1e40af"
+            },
+            {
+                "label": "Інше",
+                "value": 10,
+                "color": "#60a5fa"
+            }
+        ]
+    },
+    "tips": [
+        "Ви витратили на Продукти на 10% менше, ніж минулого місяця. Так тримати!",
+        "Заощадьте 5% доходів, налаштувавши автоматичну Банку.",
+        "Ваша категорія 'Розваги' зросла. Можливо, варто переглянути підписки?"
+    ]
+}

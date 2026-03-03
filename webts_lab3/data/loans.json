@@ -1,0 +1,37 @@
+{
+    "categoryName": "Кредитні продукти",
+    "items": [
+        {
+            "id": 101,
+            "name": "Кредитна лінія",
+            "shortname": "credit-line",
+            "description": "Гроші на картці з пільговим періодом до 62 днів. Lorem ipsum dolor sit amet.",
+            "price": "3.1% / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Credit"
+        },
+        {
+            "id": 102,
+            "name": "Розстрочка",
+            "shortname": "installment",
+            "description": "Купуйте зараз, платіть частинами без переплат. Lorem ipsum dolor sit amet.",
+            "price": "0% / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Installment"
+        },
+        {
+            "id": 103,
+            "name": "Автокредит",
+            "shortname": "auto-loan",
+            "description": "Вигідні умови на придбання нового автомобіля. Lorem ipsum dolor sit amet.",
+            "price": "12% / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Auto"
+        },
+        {
+            "id": 104,
+            "name": "Іпотека",
+            "shortname": "mortgage",
+            "description": "Ваша власна оселя вже сьогодні з мінімальним внеском. Lorem ipsum dolor sit amet.",
+            "price": "7% / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Home+Loan"
+        }
+    ]
+}

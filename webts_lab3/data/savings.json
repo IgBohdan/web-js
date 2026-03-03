@@ -1,0 +1,37 @@
+{
+    "categoryName": "Депозити",
+    "items": [
+        {
+            "id": 201,
+            "name": "Терміновий депозит",
+            "shortname": "term-deposit",
+            "description": "Максимальна ставка для збереження ваших коштів на термін до 12 міс. Lorem ipsum.",
+            "price": "15% / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Savings"
+        },
+        {
+            "id": 202,
+            "name": "Банка",
+            "shortname": "jar",
+            "description": "Зручний інструмент для накопичення на будь-яку ціль разом з друзями. Lorem ipsum.",
+            "price": "0 ₴ / сервіс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Jar"
+        },
+        {
+            "id": 203,
+            "name": "Валютний депозит",
+            "shortname": "fx-deposit",
+            "description": "Зберігайте кошти у доларах чи євро під вигідний відсоток. Lorem ipsum.",
+            "price": "2% / рік",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Forex"
+        },
+        {
+            "id": 204,
+            "name": "Дитячий рахунок",
+            "shortname": "kids-acc",
+            "description": "Навчайте дитину фінансовій грамотності з власним рахунком. Lorem ipsum.",
+            "price": "0 ₴ / міс",
+            "image": "https://placehold.co/200x200/1e293b/00aaff?text=Kids"
+        }
+    ]
+}
